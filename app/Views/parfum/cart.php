@@ -1,11 +1,11 @@
-<?= $this->include('parfum/partials/header', ['pageTitle' => 'Keranjang belanja']) ?>
+<?= $this->include('parfum/partials/header', ['pageTitle' => parfum_text('cart_title')]) ?>
 
 <section class="page-heading">
     <div class="container">
-        <div class="breadcrumbs"><a href="<?= base_url('parfum') ?>">Beranda</a> &nbsp;/&nbsp; Keranjang</div>
-        <span class="eyebrow">Pilihan Anda</span>
-        <h1>Keranjang belanja</h1>
-        <p>Periksa kembali parfum pilihan Anda sebelum checkout.</p>
+        <div class="breadcrumbs"><a href="<?= base_url('parfum') ?>"><?= parfum_text('home') ?></a> &nbsp;/&nbsp; <?= parfum_text('cart') ?></div>
+        <span class="eyebrow"><?= parfum_text('your_selection') ?></span>
+        <h1><?= parfum_text('cart_title') ?></h1>
+        <p><?= parfum_text('cart_description') ?></p>
     </div>
 </section>
 
@@ -13,9 +13,9 @@
     <div class="container">
         <?php if ($items === []): ?>
             <div class="empty-state">
-                <h2>Keranjang Anda masih kosong</h2>
-                <p>Temukan aroma favorit dan tambahkan ke keranjang untuk melanjutkan.</p>
-                <a class="button" href="<?= base_url('parfum#koleksi') ?>">Lihat koleksi parfum</a>
+                <h2><?= parfum_text('cart_empty') ?></h2>
+                <p><?= parfum_text('cart_empty_description') ?></p>
+                <a class="button" href="<?= base_url('parfum#koleksi') ?>"><?= parfum_text('view_collection') ?></a>
             </div>
         <?php else: ?>
             <div class="cart-layout">
@@ -25,22 +25,25 @@
                             <article class="cart-item">
                                 <img src="<?= base_url('parfum/produk/' . $item['image']) ?>" alt="<?= esc($item['name']) ?>">
                                 <div>
-                                    <span class="product-brand"><?= esc($item['brand']) ?> · <?= esc($item['category']) ?></span>
+                                    <span class="product-brand"><?= esc($item['brand']) ?> · <?= parfum_text(strtolower($item['category'])) ?></span>
                                     <h3><?= esc($item['name']) ?></h3>
-                                    <p><?= esc($item['notes']) ?></p>
-                                    <span class="price">Rp<?= number_format($item['price'], 0, ',', '.') ?></span>
+                                    <p><?= (int) $item['sprays'] ?> <?= parfum_text('sprays_each') ?> · <?= esc($item['notes']) ?></p>
+                                    <span class="price"><?= parfum_text('unit_price') ?>: Rp<?= number_format($item['unitTotal'], 0, ',', '.') ?></span>
                                 </div>
                                 <div class="item-actions">
                                     <form action="<?= base_url('parfum/keranjang/perbarui') ?>" method="post" class="item-actions">
                                         <?= csrf_field() ?>
-                                        <input type="hidden" name="quantity[<?= esc($item['id']) ?>]" value="0">
-                                        <label class="sr-only" for="quantity-<?= esc($item['id']) ?>">Jumlah <?= esc($item['name']) ?></label>
-                                        <input class="quantity-input" id="quantity-<?= esc($item['id']) ?>" type="number" name="quantity[<?= esc($item['id']) ?>]" min="0" max="10" value="<?= (int) $item['quantity'] ?>">
-                                        <button class="button light small" type="submit">Perbarui</button>
+                                        <label class="sr-only" for="quantity-<?= esc($item['lineKey']) ?>"><?= parfum_text('quantity') ?> <?= esc($item['name']) ?></label>
+                                        <div class="quantity-control" data-quantity-control>
+                                            <button type="button" data-quantity-step="-1" aria-label="−">−</button>
+                                            <input id="quantity-<?= esc($item['lineKey']) ?>" type="number" name="quantity[<?= esc($item['lineKey']) ?>]" min="0" max="10" value="<?= (int) $item['quantity'] ?>">
+                                            <button type="button" data-quantity-step="1" aria-label="+">+</button>
+                                        </div>
+                                        <button class="button light small" type="submit"><?= parfum_text('update') ?></button>
                                     </form>
-                                    <form action="<?= base_url('parfum/keranjang/hapus/' . $item['id']) ?>" method="post">
+                                    <form action="<?= base_url('parfum/keranjang/hapus/' . $item['id'] . '/' . $item['sprays']) ?>" method="post">
                                         <?= csrf_field() ?>
-                                        <button class="remove-link" type="submit">Hapus</button>
+                                        <button class="remove-link" type="submit"><?= parfum_text('remove') ?></button>
                                     </form>
                                 </div>
                                 <strong class="price">Rp<?= number_format($item['subtotal'], 0, ',', '.') ?></strong>
@@ -48,26 +51,21 @@
                         <?php endforeach ?>
                     </div>
                     <div style="display:flex; justify-content:space-between; gap:12px; margin-top:16px">
-                        <a class="button outline small" href="<?= base_url('parfum#koleksi') ?>">← Lanjut belanja</a>
+                        <a class="button outline small" href="<?= base_url('parfum#koleksi') ?>"><?= parfum_text('continue_shopping') ?></a>
                         <form action="<?= base_url('parfum/keranjang/kosongkan') ?>" method="post">
                             <?= csrf_field() ?>
-                            <button class="button danger small" type="submit">Kosongkan keranjang</button>
+                            <button class="button danger small" type="submit"><?= parfum_text('clear_cart') ?></button>
                         </form>
                     </div>
                 </div>
 
                 <aside class="summary-card">
-                    <h2>Ringkasan pesanan</h2>
-                    <div class="summary-line"><span>Jumlah item</span><strong><?= (int) array_sum(array_column($items, 'quantity')) ?></strong></div>
-                    <div class="summary-line"><span>Subtotal</span><strong>Rp<?= number_format($total, 0, ',', '.') ?></strong></div>
-                    <div class="summary-line"><span>Pengiriman</span><span><?= $total >= 150000 ? 'Gratis' : 'Dihitung saat checkout' ?></span></div>
-                    <div class="summary-line summary-total"><span>Total sementara</span><span>Rp<?= number_format($total, 0, ',', '.') ?></span></div>
-                    <a class="button block" href="<?= base_url('parfum/checkout') ?>">Lanjut ke checkout</a>
-                    <p class="note">Biaya pengiriman belum dihitung pada versi demo ini.</p>
+                    <h2><?= parfum_text('order_summary') ?></h2>
+                    <div class="summary-line"><span><?= parfum_text('item_count') ?></span><strong><?= (int) array_sum(array_column($items, 'quantity')) ?></strong></div>
+                    <div class="summary-line summary-total"><span><?= parfum_text('total') ?></span><span>Rp<?= number_format($total, 0, ',', '.') ?></span></div>
+                    <a class="button block" href="<?= base_url('parfum/checkout') ?>"><?= parfum_text('checkout') ?></a>
                 </aside>
             </div>
         <?php endif ?>
     </div>
 </section>
-
-<?= $this->include('parfum/partials/footer') ?>

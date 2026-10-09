@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title">
+  <title id="title">QRIS demo placeholder</title>
+  <rect width="240" height="240" rx="12" fill="#fff"/>
+  <g fill="#17151b">
+    <path d="M20 20h70v70H20zM30 30v50h50V30z" fill-rule="evenodd"/>
+    <path d="M40 40h30v30H40z"/>
+    <path d="M150 20h70v70h-70zM160 30v50h50V30z" fill-rule="evenodd"/>
+    <path d="M170 40h30v30h-30z"/>
+    <path d="M20 150h70v70H20zM30 160v50h50v-50z" fill-rule="evenodd"/>
+    <path d="M40 170h30v30H40z"/>
+    <path d="M105 20h12v12h-12zM123 20h12v12h-12zM105 38h12v12h-12zM129 44h12v12h-12zM105 62h12v12h-12zM123 68h12v12h-12zM99 86h12v12H99zM117 92h12v12h-12zM141 92h12v12h-12z"/>
+    <path d="M98 110h12v12H98zM116 110h12v12h-12zM140 110h12v12h-12zM164 104h12v12h-12zM188 110h12v12h-12zM212 104h12v12h-12z"/>
+    <path d="M104 128h12v12h-12zM128 128h12v12h-12zM152 128h12v12h-12zM176 128h12v12h-12zM200 128h12v12h-12z"/>
+    <path d="M98 146h12v12H98zM116 152h12v12h-12zM140 146h12v12h-12zM158 164h12v12h-12zM182 152h12v12h-12zM206 164h12v12h-12z"/>
+    <path d="M98 176h12v12H98zM122 182h12v12h-12zM140 194h12v12h-12zM164 188h12v12h-12zM182 200h12v12h-12zM206 188h12v12h-12z"/>
+    <path d="M104 212h12v12h-12zM128 212h12v12h-12zM152 212h12v12h-12zM176 218h12v12h-12zM200 212h12v12h-12z"/>
+    <path d="M20 104h12v12H20zM38 116h12v12H38zM62 104h12v12H62zM80 122h12v12H80zM20 128h12v12H20zM62 134h12v12H62z"/>
+  </g>
+</svg>
